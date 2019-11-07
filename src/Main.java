@@ -69,15 +69,13 @@ public class Main {
                 byte[] sizeArray = new byte[] { 0x00, initBytes[4], initBytes[5], initBytes[6] };
                 int size = ByteBuffer.wrap(sizeArray).getInt();
 
-                byte[] fileBytes = new byte[size];
-
-                for (int i = 0; i < size; i++) {
-                    fileBytes[i] = (byte) inputStream.read();
-                }
-
                 FileOutputStream fos = new FileOutputStream(file);
                 BufferedOutputStream bos = new BufferedOutputStream(fos);
-                bos.write(fileBytes);
+
+                for (int i = 0; i < size; i++) {
+                    bos.write((byte) inputStream.read());
+                }
+
                 bos.close();
                 fos.close();
             }
@@ -171,6 +169,8 @@ public class Main {
         }
 
         scanner.close();
+
+        System.out.println("Good Bye!");
         System.exit(0);
     }
 
@@ -204,6 +204,11 @@ public class Main {
         // Get username from the user and send it to the server
         System.out.print("Username: ");
         String username = scanner.nextLine();
+
+        // Close the application properly, if the user types exit
+        if (username.equals("exit"))
+            exit();
+
         boolean username_result = sendUsername(username);
 
         // If username is wrong, exit!
@@ -213,6 +218,11 @@ public class Main {
         // Get password from the user and send it to the server
         System.out.print("Password: ");
         String password = scanner.nextLine();
+
+        // Close the application properly, if the user types exit
+        if (password.equals("exit"))
+            exit();
+
         boolean password_result = sendPassword(password);
 
         // If password is wrong, exit!
